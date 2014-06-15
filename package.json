@@ -1,0 +1,41 @@
+{
+  "name": "blink-cli",
+  "version": "0.1.0",
+  "description": "The blink command line interface.",
+  "bin": {
+    "blink": "./bin/blink"
+  },
+  "main": "./lib/cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jedmao/blink-cli.git"
+  },
+  "keywords": [
+    "blink",
+    "cli",
+    "css",
+    "bem",
+    "oocss",
+    "framework"
+  ],
+  "author": "Jed Mao <jed.hunsaker+npm@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jedmao/blink-cli/issues"
+  },
+  "homepage": "https://github.com/jedmao/blink-cli",
+  "preferGlobal": true,
+  "dependencies": {
+    "blink": ">=0.3.3",
+    "cli-color": "^0.3.2",
+    "gitlike-cli": "0.0.10"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.0",
+    "gulp-clean": "^0.3.0",
+    "gulp-tsc": "^0.9.1"
+  }
+}
