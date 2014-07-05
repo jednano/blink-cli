@@ -1,6 +1,6 @@
 {
   "name": "blink-cli",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "The blink command line interface.",
   "bin": {
     "blink": "./bin/blink"
@@ -31,7 +31,7 @@
   "dependencies": {
     "blink": ">=2.0",
     "cli-color": "^0.3.2",
-    "gitlike-cli": "0.0.10"
+    "gitlike-cli": "^0.1.0"
   },
   "devDependencies": {
     "gulp": "^3.8.0",
