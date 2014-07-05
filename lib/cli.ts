@@ -17,7 +17,7 @@ export function execute(args, callback: (exitCode: number) => void): number {
 			.action((args2, options) => {
 				var sources = args2.sources;
 				var count = sources.length;
-				blink.compile(options, args2.sources, (err, config, result) => {
+				blink.compile(options, { src: args2.sources, dest: '' }, (err, config, result) => {
 
 					function logError(err2) {
 						if (!err2 || config.quiet) {

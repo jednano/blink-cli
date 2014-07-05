@@ -1,6 +1,6 @@
 {
   "name": "blink-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The blink command line interface.",
   "bin": {
     "blink": "./bin/blink"
@@ -29,7 +29,7 @@
   "homepage": "https://github.com/blinkjs/blink-cli",
   "preferGlobal": true,
   "dependencies": {
-    "blink": ">=0.3.3",
+    "blink": ">=2.0",
     "cli-color": "^0.3.2",
     "gitlike-cli": "0.0.10"
   },
