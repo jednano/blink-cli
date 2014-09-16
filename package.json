@@ -1,6 +1,6 @@
 {
   "name": "blink-cli",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "The blink command line interface.",
   "bin": {
     "blink": "./bin/blink"
