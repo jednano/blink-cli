@@ -1,15 +1,13 @@
-﻿var gulp = require('gulp');
-
-var clean = require('gulp-clean');
+﻿var del = require('del');
+var gulp = require('gulp');
 var tsc = require('gulp-tsc');
 
 gulp.task('default', ['build']);
 
 gulp.task('build', ['clean', 'ts']);
 
-gulp.task('clean', function() {
-	return gulp.src(['lib/cli.js'], { read: false })
-		.pipe(clean());
+gulp.task('clean', function(done) {
+	del(['lib/cli.js'], done);
 });
 
 gulp.task('ts', function() {

@@ -1,5 +1,8 @@
 ﻿///<reference path="../node_modules/blink/blink.d.ts"/>
+///<reference path="../node_modules/blink/bower_components/dt-vinyl/vinyl.d.ts"/>
 import fs = require('fs');
+import path = require('path');
+var vfs = require('vinyl-fs');
 
 var clc = require('cli-color');
 var program = require('gitlike-cli');
@@ -8,87 +11,46 @@ import blink = require('blink');
 
 var defaultColor = clc.cyan;
 
-export function execute(args, callback: (exitCode: number) => void): number {
+export function execute(args: string[], exit: (exitCode: number) => void): number {
+
 	return program
 		.version(require('../node_modules/blink/package.json').version)
 
 		.command('compile <sources>...')
 			.description('Compile Blink stylesheets to CSS ' + defaultColor('(defaults in color)'))
-			.action((args2, options) => {
-				var sources = args2.sources;
-				var count = sources.length;
-				blink.compile(options, { src: args2.sources, dest: '' }, (err, config, result) => {
+		.action((args2, options: blink.ConfigurationOptions) => {
 
-					function logError(err2) {
-						if (!err2 || config.quiet) {
-							return;
+				var config = new blink.Configuration(options || {});
+
+				vfs.src(args2.sources)
+					.pipe(blink.compile(options))
+					.on('error', (err: Error) => {
+						if (config.quiet) {
+							exit(1);
 						}
 						if (config.trace) {
-							throw err2;
+							throw err;
 						}
-						var message = err2.message;
-						if (result.src) {
-							message = result.src + ': ' + message;
-						}
-						if (!config.boring) {
-							message = clc.red(message);
-						}
-						console.log(message);
-					}
-
-					function writeFile() {
-						fs.writeFile(result.dest, result.contents, (err2) => {
-							logError(err2);
-							if (--count === 0) {
-								callback(0);
-							}
-						});
-					}
-
-					logError(err);
-
-					if (err || !result) {
-						return;
-					}
-
-					if (!result.dest) {
-						console.log(result.contents || '');
-						return;
-					}
-
-					if (config.force) {
-						writeFile();
-					} else {
-						fs.exists(result.dest, (exists) => {
-							if (!exists) {
-								writeFile();
-							}
-						});
-					}
-				});
+						console.log(config.boring ? err.message : clc.red(err.message));
+						exit(1);
+					})
+					.pipe(vfs.dest((file: Vinyl.IFile) => {
+						return file.base;
+					}))
+					.on('end', () => {
+						exit(0);
+					});
 			})
 
 			//// Configuration
-			//.option('-p, --project <dir>', 'The current directory if not specified', './')
 			.option('-c, --config <path>', 'Specifly location of config file')
 			//.option('--env <target>',      defaultColor('dev') + ', prod')
 
-			//.option('--sourcemap', 'Generate a sourcemap')
 			.option('-q, --quiet', 'Quiet mode')
 			.option('-t, --trace', 'Show a full stacktrace on error')
-			.option('-f, --force', 'Overwrites existing files')
+			//.option('-f, --force', 'Overwrites existing files')
 			//.option('--dry-run',   'Tells you what it plans to do')
 			.option('--boring',    'Turn off colorized output')
-
-			//// Application settings
-			//.option('--app <dir>',               'Base directory for your application')
-			//.option('--blink <dir>',             'Blink stylesheet source directory')
-			//.option('--css <dir>',               'Target directory for generated CSS files')
-			//.option('--images <dir>',            'Directory where you keep your images')
-			//.option('--generated-images <path>', 'The path where you generate your images')
-			//.option('--fonts <dir>',             'Directory where you keep your fonts')
-			//.option('--http <path>',             'Set to the root of your project when deployed')
-			//.option('--relative-assets',         'Asset helpers generate relative URLs')
 
 			// Formatting
 			.option('-s, --style <style>',          defaultColor('nested') + ', expanded, compact, compressed')
