@@ -68,6 +68,14 @@ export function execute(args: string[], exit: (exitCode: number) => void): numbe
 			.option('--firefox <version>', 'Minimum Firefox version supported: ' + defaultColor('0'))
 			.option('--ie <version>',      'Minimum IE version supported: ' + defaultColor('0'))
 			.option('--opera <version>',   'Minimum Opera version supported: ' + defaultColor('0'))
+			.option('--safari <version>',   'Minimum Safari version supported: ' + defaultColor('0'))
+
+			// Legacy mobile browser support
+			.option('--android <version>',       'Minimum Android version supported: ' + defaultColor('0'))
+			.option('--firefoxMobile <version>', 'Minimum Firefox Mobile version supported: ' + defaultColor('0'))
+			.option('--iePhone <version>',       'Minimum IE Phone version supported: ' + defaultColor('0'))
+			.option('--operaMobile <version>',   'Minimum Opera Mobile version supported: ' + defaultColor('0'))
+			.option('--safariMobile <version>',  'Minimum Safari Mobile version supported: ' + defaultColor('0'))
 
 			// Experimental support
 			.option('--no-webkit-prefix', 'Disable experimental -webkit- prefix')
